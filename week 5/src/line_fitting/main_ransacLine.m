@@ -49,3 +49,5 @@ err_ransac = sqr_error(k2, b2, pts(:,1:num*(1-outlr_ratio)))
 distance = (-pts(2,:)+k2*pts(1,:)+b2) / (sqrt(1+k2*k2));
 inlier_idx = find(abs(distance) <= thresh_dist);
 plot(pts(1,inlier_idx), pts(2,inlier_idx),'or');
+
+legend('points sampled','Real line', 'least square', 'RANSAC', 'inliers','Location', 'NorthWest') ;
