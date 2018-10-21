@@ -67,7 +67,7 @@ e2 = null(Fh','r') ;
 % show clicked points
 figure(1),clf, imshow(img1, []); hold on ; plot(x1s(1,:), x1s(2,:), '*r');
 figure(2),clf, imshow(img2, []); hold on, plot(x2s(1,:), x2s(2,:), '*r');
-% polar lines in img 1
+polar lines in img 1
 figure(1)
 for k = 1:size(x1s,2)
     drawEpipolarLines(FF'*x2s(:,k), img1);
@@ -76,18 +76,4 @@ end
 figure(2)
 for k = 1:size(x2s,2)
     drawEpipolarLines(FF*x1s(:,k), img2);
-end
-
-% draw epipoles
-figure(1)
-if sigularity_constraint
-    plot(e1(1),e1(2),'og','MarkerSize',20,'LineWidth',3) ;
-else
-    plot(e1(1),e1(2),'or','MarkerSize',30,'LineWidth',3) ;
-end
-figure(2)
-if sigularity_constraint    
-    plot(e2(1),e2(2),'og','MarkerSize',20,'LineWidth',3) ;
-else
-    plot(e2(1),e2(2),'or','MarkerSize',30,'LineWidth',3) ;
 end
