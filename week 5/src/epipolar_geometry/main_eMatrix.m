@@ -7,9 +7,9 @@ addpath images
 
 clickPoints = false;
 % dataset = 0;   % Your pictures
-% dataset = 1; % ladybug
+dataset = 1; % ladybug
 % dataset = 2; % rect
-dataset = 3; % pumpkin
+% dataset = 3; % pumpkin
 
 % image names
 if(dataset==0)
@@ -63,29 +63,84 @@ end
 
 %% YOUR CODE HERE
 
-% [ ... ]
+% image coordinates
+nnx1s = K \ x1s;
+nnx2s = K \ x2s;
 
 % estimate fundamental matrix
 [Eh, E] = essentialMatrix(nnx1s, nnx2s);
 
+% EE is the essential matrix we wish to draw epipolar lines for
+essential_constraint = 1 ; % 1: respected constrants, 0:no constraints
+if essential_constraint 
+    EE = Eh ;
+else
+    EE = E ;
+end
+
+%Compute fundamental matrix (see page 259 of additional document on moodle)
+F = K'\EE/K
+[U,S,V] = svd(F);
+S(3,3) = 0;
+Fh = U*S*V';
+
+%claculate the epipoles
+e1 = null(Fh,'r') ;
+e2 = null(Fh','r') ;
+
+% FF is the fundamental matrix we wish to draw epipolar lines for
+sigularity_constraint = 1 ; % 1: use rank 2 F, 0:use rank 3 F
+if sigularity_constraint 
+    FF = Fh ;
+else
+    FF = F ;
+end
 
 % show clicked points
-figure(1),hold off, imshow(img1, []); hold on, plot(x1s(1,:), x1s(2,:), '*r');
-figure(2),hold off, imshow(img2, []); hold on, plot(x2s(1,:), x2s(2,:), '*b');
-
+figure(1),hold off, imshow(img1, []); hold on; plot(x1s(1,:), x1s(2,:), '*r');
+figure(2),hold off, imshow(img2, []); hold on; plot(x2s(1,:), x2s(2,:), '*b');
 
 % compute the corresponding epipolar lines from F=K_inv'*E*K_inv
 % draw epipolar lines in img 1
 figure(1)
 for k = 1:size(x1s,2)
-%    drawEpipolarLines(%..., img1);
+   drawEpipolarLines(FF'*x2s(:,k), img1);
 end
 % draw epipolar lines in img 2
 figure(2)
 for k = 1:size(x2s,2)
-%    drawEpipolarLines(%..., img2);
+   drawEpipolarLines(FF*x1s(:,k), img2);
 end
 
+% show epipoles
+figure(1)
+if sigularity_constraint && essential_constraint
+    plot(e1(1),e1(2),'og','MarkerSize',20,'LineWidth',3) ;
+    plot(e1(1),e1(2),'.g','MarkerSize',10,'LineWidth',5) ;
+elseif ~sigularity_constraint &&  essential_constraint
+    plot(e1(1),e1(2),'oc','MarkerSize',20,'LineWidth',3) ;
+    plot(e1(1),e1(2),'.c','MarkerSize',10,'LineWidth',5) ;
+elseif sigularity_constraint &&  ~essential_constraint
+    plot(e1(1),e1(2),'om','MarkerSize',20,'LineWidth',3) ;
+    plot(e1(1),e1(2),'.m','MarkerSize',10,'LineWidth',5) ;
+else
+    plot(e1(1),e1(2),'or','MarkerSize',30,'LineWidth',3) ;
+    plot(e1(1),e1(2),'.r','MarkerSize',10,'LineWidth',5) ;
+end
+figure(2)
+if sigularity_constraint && essential_constraint
+    plot(e2(1),e2(2),'og','MarkerSize',20,'LineWidth',3) ;
+    plot(e2(1),e2(2),'.g','MarkerSize',10,'LineWidth',5) ;
+elseif ~sigularity_constraint &&  essential_constraint
+    plot(e2(1),e2(2),'oc','MarkerSize',20,'LineWidth',3) ;
+    plot(e2(1),e2(2),'.c','MarkerSize',10,'LineWidth',5) ;
+elseif sigularity_constraint &&  ~essential_constraint
+    plot(e2(1),e2(2),'om','MarkerSize',20,'LineWidth',3) ;
+    plot(e2(1),e2(2),'.m','MarkerSize',10,'LineWidth',5) ;
+else
+    plot(e2(1),e2(2),'or','MarkerSize',30,'LineWidth',3) ;
+    plot(e2(1),e2(2),'.r','MarkerSize',10,'LineWidth',5) ;
+end
 
 %%
 % =========================================================================
