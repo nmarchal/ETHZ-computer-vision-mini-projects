@@ -7,8 +7,8 @@ addpath images
 
 clickPoints = false;
 % dataset = 0;   % Your pictures
-dataset = 1; % ladybug
-% dataset = 2; % rect
+% dataset = 1; % ladybug
+dataset = 2; % rect
 % dataset = 3; % pumpkin
 
 % image names
@@ -71,7 +71,7 @@ nnx2s = K \ x2s;
 [Eh, E] = essentialMatrix(nnx1s, nnx2s);
 
 % EE is the essential matrix we wish to draw epipolar lines for
-essential_constraint = 1 ; % 1: respected constrants, 0:no constraints
+essential_constraint = 0 ; % 1: respected constrants, 0:no constraints
 if essential_constraint 
     EE = Eh ;
 else
@@ -79,7 +79,7 @@ else
 end
 
 %Compute fundamental matrix (see page 259 of additional document on moodle)
-F = K'\EE/K
+F = K'\EE/K ;
 [U,S,V] = svd(F);
 S(3,3) = 0;
 Fh = U*S*V';
@@ -89,7 +89,7 @@ e1 = null(Fh,'r') ;
 e2 = null(Fh','r') ;
 
 % FF is the fundamental matrix we wish to draw epipolar lines for
-sigularity_constraint = 1 ; % 1: use rank 2 F, 0:use rank 3 F
+sigularity_constraint = 0 ; % 1: use rank 2 F, 0:use rank 3 F
 if sigularity_constraint 
     FF = Fh ;
 else
@@ -113,35 +113,38 @@ for k = 1:size(x2s,2)
 end
 
 % show epipoles
-figure(1)
-if sigularity_constraint && essential_constraint
-    plot(e1(1),e1(2),'og','MarkerSize',20,'LineWidth',3) ;
-    plot(e1(1),e1(2),'.g','MarkerSize',10,'LineWidth',5) ;
-elseif ~sigularity_constraint &&  essential_constraint
-    plot(e1(1),e1(2),'oc','MarkerSize',20,'LineWidth',3) ;
-    plot(e1(1),e1(2),'.c','MarkerSize',10,'LineWidth',5) ;
-elseif sigularity_constraint &&  ~essential_constraint
-    plot(e1(1),e1(2),'om','MarkerSize',20,'LineWidth',3) ;
-    plot(e1(1),e1(2),'.m','MarkerSize',10,'LineWidth',5) ;
-else
-    plot(e1(1),e1(2),'or','MarkerSize',30,'LineWidth',3) ;
-    plot(e1(1),e1(2),'.r','MarkerSize',10,'LineWidth',5) ;
+if e1
+    figure(1)
+    if sigularity_constraint && essential_constraint
+        plot(e1(1),e1(2),'og','MarkerSize',20,'LineWidth',3) ;
+        plot(e1(1),e1(2),'.g','MarkerSize',10,'LineWidth',5) ;
+    elseif ~sigularity_constraint &&  essential_constraint
+        plot(e1(1),e1(2),'oc','MarkerSize',20,'LineWidth',3) ;
+        plot(e1(1),e1(2),'.c','MarkerSize',10,'LineWidth',5) ;
+    elseif sigularity_constraint &&  ~essential_constraint
+        plot(e1(1),e1(2),'om','MarkerSize',20,'LineWidth',3) ;
+        plot(e1(1),e1(2),'.m','MarkerSize',10,'LineWidth',5) ;
+    else
+        plot(e1(1),e1(2),'or','MarkerSize',30,'LineWidth',3) ;
+        plot(e1(1),e1(2),'.r','MarkerSize',10,'LineWidth',5) ;
+    end
 end
-figure(2)
-if sigularity_constraint && essential_constraint
-    plot(e2(1),e2(2),'og','MarkerSize',20,'LineWidth',3) ;
-    plot(e2(1),e2(2),'.g','MarkerSize',10,'LineWidth',5) ;
-elseif ~sigularity_constraint &&  essential_constraint
-    plot(e2(1),e2(2),'oc','MarkerSize',20,'LineWidth',3) ;
-    plot(e2(1),e2(2),'.c','MarkerSize',10,'LineWidth',5) ;
-elseif sigularity_constraint &&  ~essential_constraint
-    plot(e2(1),e2(2),'om','MarkerSize',20,'LineWidth',3) ;
-    plot(e2(1),e2(2),'.m','MarkerSize',10,'LineWidth',5) ;
-else
-    plot(e2(1),e2(2),'or','MarkerSize',30,'LineWidth',3) ;
-    plot(e2(1),e2(2),'.r','MarkerSize',10,'LineWidth',5) ;
+if e2
+    figure(2)
+    if sigularity_constraint && essential_constraint
+        plot(e2(1),e2(2),'og','MarkerSize',20,'LineWidth',3) ;
+        plot(e2(1),e2(2),'.g','MarkerSize',10,'LineWidth',5) ;
+    elseif ~sigularity_constraint &&  essential_constraint
+        plot(e2(1),e2(2),'oc','MarkerSize',20,'LineWidth',3) ;
+        plot(e2(1),e2(2),'.c','MarkerSize',10,'LineWidth',5) ;
+    elseif sigularity_constraint &&  ~essential_constraint
+        plot(e2(1),e2(2),'om','MarkerSize',20,'LineWidth',3) ;
+        plot(e2(1),e2(2),'.m','MarkerSize',10,'LineWidth',5) ;
+    else
+        plot(e2(1),e2(2),'or','MarkerSize',30,'LineWidth',3) ;
+        plot(e2(1),e2(2),'.r','MarkerSize',10,'LineWidth',5) ;
+    end
 end
-
 %%
 % =========================================================================
 % Exercise 4.4: Camera matrix

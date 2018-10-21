@@ -34,7 +34,7 @@ E = T2'*E*T1;
 [U,S,V] = svd(E) ;
 temp = (S(1,1) + S(2,2))/2 ;
 S(1,1) = temp ;S(2,2) = temp ;
-S(:,3) = zeros(3,1) 
+S(:,3) = zeros(3,1) ;
 Eh = U*S*V';
 
 end
