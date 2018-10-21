@@ -4,7 +4,7 @@
 clear
 addpath helpers
 
-%don't forget to initialize VLFeat
+%don't forget to initialize VLFeat (run vl_setup located in tools [hw2])
 
 %Load images
 % imgName1 = ''; % Try with some different pairs
