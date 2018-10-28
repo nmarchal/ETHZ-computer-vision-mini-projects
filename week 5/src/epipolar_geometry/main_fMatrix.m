@@ -87,11 +87,13 @@ else
     plot(e1(1),e1(2),'or','MarkerSize',30,'LineWidth',3) ;
     plot(e1(1),e1(2),'.r','MarkerSize',10) ;
 end
+if e2
 figure(2)
-if sigularity_constraint    
-    plot(e2(1),e2(2),'og','MarkerSize',20,'LineWidth',3) ;
-    plot(e2(1),e2(2),'.g','MarkerSize',10) ;
-else
-    plot(e2(1),e2(2),'or','MarkerSize',30,'LineWidth',3) ;
-    plot(e2(1),e2(2),'.r','MarkerSize',10) ;
+    if sigularity_constraint    
+        plot(e2(1),e2(2),'og','MarkerSize',20,'LineWidth',3) ;
+        plot(e2(1),e2(2),'.g','MarkerSize',10) ;
+    else
+        plot(e2(1),e2(2),'or','MarkerSize',30,'LineWidth',3) ;
+        plot(e2(1),e2(2),'.r','MarkerSize',10) ;
+    end
 end

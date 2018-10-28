@@ -8,8 +8,8 @@ addpath images
 clickPoints = false;
 % dataset = 0;   % Your pictures
 % dataset = 1; % ladybug
-dataset = 2; % rect
-% dataset = 3; % pumpkin
+% dataset = 2; % rect
+dataset = 3; % pumpkin
 
 % image names
 if(dataset==0)
@@ -71,7 +71,7 @@ nnx2s = K \ x2s;
 [Eh, E] = essentialMatrix(nnx1s, nnx2s);
 
 % EE is the essential matrix we wish to draw epipolar lines for
-essential_constraint = 0 ; % 1: respected constrants, 0:no constraints
+essential_constraint = 1 ; % 1: respected constrants, 0:no constraints
 if essential_constraint 
     EE = Eh ;
 else
@@ -79,10 +79,13 @@ else
 end
 
 %Compute fundamental matrix (see page 259 of additional document on moodle)
-F = K'\EE/K ;
+F = inv(K')*EE*inv(K) ;
 [U,S,V] = svd(F);
 S(3,3) = 0;
 Fh = U*S*V';
+
+rank(Fh) ;
+rank(F) ;
 
 %claculate the epipoles
 e1 = null(Fh,'r') ;
@@ -157,6 +160,8 @@ P2 = decomposeE(Eh, nnx1s, nnx2s);
 
 % TODO: triangulate 3D points and plot together with cameras
 % The function showCameras.m is can be useful here
+
+% --> this is done inside the decomposeE function directly
 
 % [ ... ]
 

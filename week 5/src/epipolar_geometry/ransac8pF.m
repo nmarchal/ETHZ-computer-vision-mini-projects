@@ -5,7 +5,7 @@ p_stop = 0.99 ;
 nbr_pts = size(x1,2) ;
 x1(3,:) = ones(1,nbr_pts);
 x2(3,:) = ones(1,nbr_pts);
-maxiter = 10000 ;
+maxiter = 10000 ; 
 max_nbr_matches = 0 ;
  
 i = 1 ;
@@ -43,12 +43,12 @@ while i <= maxiter ;
     
     proba = 1-(1-r^N)^m ;
     if proba > p_stop
-        i = maxiter ; %stops the while loop 
+        i = maxiter ; %stops the while loop because the probability of not havinf ouliers is high 
         fprintf('--- I stopped after: %0.2f iterations',m) ;
     end
     i = i+1 ;
 end
-    
+r;
 end
 
 

@@ -6,14 +6,20 @@ function P = decomposeE(E, x1, x2)
 W = [ 0 -1 0 ; 1 0 0 ; 0 0 1 ] ;
     
 [U,~,V] = svd(E);
-U3 = U(:,end) ;
+t = U(:,end) ;
 
-P0 = [eye(3) zeros(3,1)] ;
+R1 = U*W*V';
+R2 = U*W'*V';
 
-P1 = [U*W*V' U3] ;
-P2 = [U*W*V' -U3] ;
-P3 = [U*W'*V' U3] ;
-P4 = [U*W'*V' -U3] ;
+R1 = R1*det(R1); 
+R2 = R2*det(R2);
+
+P1 = [R1, t];
+P2 = [R1,-t];
+P3 = [R2, t];
+P4 = [R2,-t];
+Ps = {P1,P2,P3,P4};
+P0 = [eye(3), zeros(3,1)];
 
 P_possible = [P1, P2, P3, P4] ;
 truth = [0 0 0 0] ;
@@ -28,8 +34,10 @@ for i=1:4
         figure(i+4)
         hold on ;
         plot3(XS(1,:),XS(2,:),XS(3,:),'x') ; view(30,10)
+%         zlim([0 5]) ; %limits to plot nice graphs in report
+%         xlim([-2 2]) ;
+%         ylim([-2 2]) ;
     end
-
 end
 P_idx = find(truth==1) ;
 

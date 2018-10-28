@@ -33,12 +33,12 @@ showFeatureMatches(img1, x1s(1:2,:), img2, x2s(1:2,:), 1);
 % Exercise 4.6: 8-point RANSAC
 % =========================================================================
 
-threshold = 5;
+threshold = 3;
 
 % TODO: implement ransac8pF
 [inliers1, inliers2, outliers1, outliers2, M, F] = ransac8pF(x1s, x2s, threshold);
 
-showFeatureMatches(img1, inliers1(1:2,:), img2, inliers2(1:2,:), 1);
-% showFeatureMatches(img1, outliers1(1:2,:), img2, outliers2(1:2,:), 2);
+ showFeatureMatches(img1, inliers1(1:2,:), img2, inliers2(1:2,:), 1);
+ showFeatureMatches(img1, outliers1(1:2,:), img2, outliers2(1:2,:), 2);
 
 % =========================================================================
