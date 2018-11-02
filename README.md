@@ -7,4 +7,6 @@ week 3 : Feature extraction (and matching))
 
 week 4 : Monte Carlo Localization using Particle Filter
 
-week 5 : Multiple view geometry and model fitting
+week 5 : Multiple view geometry and model fitting (2 weeks work)
+
+week 7 : Image segmentation
