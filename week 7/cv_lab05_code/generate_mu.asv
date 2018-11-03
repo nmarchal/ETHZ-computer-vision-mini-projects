@@ -1,0 +1,12 @@
+% Generate initial values for mu
+% K is the number of segments
+
+% Each of is a 3x1 vector that represents a point in
+% the L*a*b* space. A possible way to initialize is to
+% spread them equally in the L*a*b* space
+
+function mu = generate_mu([input you need], K)
+for i = 1:K
+    mu = [the mus you generated];
+
+end

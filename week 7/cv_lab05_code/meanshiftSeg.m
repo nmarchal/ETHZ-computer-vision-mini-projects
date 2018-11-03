@@ -30,7 +30,7 @@ tol_peaks = radius/2 ;
 % tol_peaks = 0.00001 ;
 
  for i = 1:L %project tips fo not do loops ... I start witha loop and evaluate performances
-     mean_1pt = meanshift1pt(Xhn(1:3,i),Xhn(1:3,:),radius,L) ;
+     mean_1pt = find_peak(Xhn(1:3,i),Xhn(1:3,:),radius) ;
      if i==1 %first run
          peak = mean_1pt ;
          map(i) = 1 ;      

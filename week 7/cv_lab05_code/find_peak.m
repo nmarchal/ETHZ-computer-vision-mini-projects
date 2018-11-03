@@ -1,5 +1,7 @@
-function [ mean_1pt ] = meanshift1pt(Xi,X,radius,L)
+function [ mean_1pt ] = find_peak(Xi,X,radius)
 %finds the mean after iterating a mean shift for 1 point
+
+L = max(size(X)) ;
 
 tol = radius/15 ;
 shift = 15 ;

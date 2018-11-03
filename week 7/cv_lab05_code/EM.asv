@@ -1,4 +1,4 @@
-% function [map cluster] = EM(img)
+function [map cluster] = EM(img)
 
 %% creat the distribution X (copy paste from meanshiftSeg.m)
 width = size(img,2) ; height = size(img,1) ;
@@ -22,34 +22,22 @@ mean_im = mean(norm(double(X))) ; %116
 %% generate the parameters
 %number of clusters (depends on the image we have)
 K = 6 ;
-% initialization of alpha (see slides)
-alpha = ones(1,K)/K;
+% dummy initialization of alpha 
+alpha_s = ones(1,K)/K;
 
 % Find ranges of values in L*a*b space
-Lmax = max(Xhn(:,1)); Lmin = min(Xhn(:,1)); rangeL = Lmax - Lmin ;
-amax = max(Xhn(:,2)); amin = min(Xhn(:,2)); rangea = amax - amin ;
-bmax = max(Xhn(:,3)); bmin = min(Xhn(:,3)); rangeb = bmax - bmin ;
+LMax = max(Xn(:,1)); Lmin = min(Xn(:,1));
+aMax = max(Xn(:,2)); amin = min(Xn(:,2));
+bMax = max(Xn(:,3)); bmin = min(Xn(:,3));
 % use function generate_mu to initialize mus
-mu = generate_mu(Lmin, amin, bmin, rangeL, rangea, rangeb, K);
-% figure ; 
-% histogram(mu(3,:),5)
+mu = generate_mu(LMax,Lmin,aMax,amin,bMax,bmin,K);
 % use function generate_cov to initialize covariances
-var = generate_cov(rangeL, rangea, rangeb, K) ;
+var = generate_cov(LMax,Lmin,aMax,amin,bMax,bmin,K);
 
-%%
+
 % iterate between maximization and expectation
-tol = 0.3; %need to tune this parameter
-deltaMu = tol+1;
-while deltaMu > tol;
-    % use function expectation
-    P = expectation(mu,var,alpha,Xhn);
-    % use function maximization
-    [mu1, var1, alpha1] = maximization(P, Xhn);
-    deltaMu = norm(mu(:)-mu1(:));
-    mu = mu1; 
-    var = var1; 
-    alpha = alpha1;
-%   ids = visualizeMostLikelySegments(Xn,alpha_s,mu_s,var_s);
-end
+% use function maximization
+% use function expectation
+P = expectation(mu,var,alpha,X) ;
 
-% end
+end
