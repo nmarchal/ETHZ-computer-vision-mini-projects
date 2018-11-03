@@ -1,14 +1,12 @@
-% function run_ex5()
+function run_ex5()
 
 % load image
 img = imread('cow.jpg');
 size(img) ;
-% for faster debugging you might want to decrease the size of your image
-% (use imresize)
-% (especially for the mean-shift part!)
-figure, imshow(img), title('original image')
+figure, imshow(img), title('original image') 
 
-% img = imresize(img, [70 60]) ;
+%% uncomment to reshape image (faster runtime)
+% img = imresize(img, 1/2) ;
 % figure, imshow(img), title('image decreased')
 
 %% smooth image (6.1a) DONE
@@ -24,12 +22,12 @@ cform = makecform('srgb2lab');
 imglab = applycform(imgSmoothed, cform);
 figure, imshow(imglab), title('l*a*b* image')
 
-%% (6.2)
+%% (6.2) DONE
 [mapMS peak] = meanshiftSeg(imglab);
 visualizeSegmentationResults (mapMS,peak);
 
 %% (6.3)
-% [mapEM cluster] = EM(imglab);
-% visualizeSegmentationResults (mapEM,cluster);
+[mapEM cluster ] = EM(imglab);
+visualizeSegmentationResults (mapEM,cluster);
 
-% end
+end
