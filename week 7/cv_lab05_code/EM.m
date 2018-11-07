@@ -56,7 +56,7 @@ while deltaMu > tol;
     P = expectation(mu,var,alpha,Xhn(1:3,:));
     % use function maximization
     [mu1, var1, alpha1] = maximization(P, Xhn(1:3,:));
-    deltaMu = norm(mu(:)-mu1(:)) ;
+    deltaMu = norm(mu(:)-mu1(:));
     mu = mu1; 
     var = var1;
     alpha = alpha1;

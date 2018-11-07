@@ -24,7 +24,7 @@ for i=1:K
 end
 
 [s ids] = max(scores,[],3);
-% figure;
-% imagesc(ids);
+%  figure;
+%  imagesc(uint8(ids));
 
 end

@@ -20,6 +20,6 @@ for d=1:D
 end
 
 figure;
-imshow(valImg);
+imshow(uint8(valImg));
 
 end
