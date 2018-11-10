@@ -1,0 +1,7 @@
+newmtl imgTex
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+map_Ka imgRecL.png
+map_Kd imgRecL.png
+map_Ks imgRecL.png

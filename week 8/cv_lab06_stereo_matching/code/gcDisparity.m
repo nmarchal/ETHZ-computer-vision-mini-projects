@@ -5,7 +5,7 @@ function L = gcDisparity(imgL, imgR, dispRange)
 
     % find data costs
     %% <<< ----------
-    Dc = diffsGC(...);
+    Dc = diffsGC(imgL, imgR, dispRange);
 
     k = size(Dc,3);
     Sc = ones(k) - eye(k);
@@ -14,7 +14,8 @@ function L = gcDisparity(imgL, imgR, dispRange)
     % improve performance
     [Hc Vc] = gradient(imfilter(imgL,fspecial('gauss',[3 3]),'symmetric'));
 
-    gch = GraphCut('open', 1000*Dc, 5*Sc, exp(-Vc*5), exp(-Hc*5));
+%     gch = GraphCut('open', 4000*Dc, 3*Sc, exp(-Vc*5), exp(-Hc*5));
+    gch = GraphCut('open', 1000*Dc, 3*Sc, exp(-Vc*5), exp(-Hc*5));
 
     [gch L] = GraphCut('expand',gch);
     gch = GraphCut('close', gch);
