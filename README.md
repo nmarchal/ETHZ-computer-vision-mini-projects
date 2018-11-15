@@ -10,3 +10,5 @@ week 4 : Monte Carlo Localization using Particle Filter
 week 5 : Multiple view geometry and model fitting (2 weeks work)
 
 week 7 : Image segmentation
+
+week 8 : stereo matching

@@ -2,7 +2,7 @@ function disp = stereoDisparity(img1, img2, dispRange)
 % dispRange: range of possible disparity values
 % --> not all values need to be checked
 
-box_size = 25 ; %try different values, 3,5,7 etc
+box_size = 20 ; %try different values, 3,5,7 etc
 
 img1 = double(img1) ;
 img2 = double(img2) ;
