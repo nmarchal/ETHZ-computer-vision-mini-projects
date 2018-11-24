@@ -21,18 +21,19 @@ for i = 1:N ;
     end
     size(normalization);
 end
-normalization = 1/(sqrt(2)/normalization) 
+normalization = 1/(sqrt(2)/normalization) ;
 % normalization = 1/(2/normalization) 
 
 smallest_r = smallest_r*normalization ;
 biggest_r = biggest_r*normalization ;
+
 
 theta_size = 360/nbBins_theta ;
 delta_r(1) = smallest_r ;
 for i = 1:nbBins_r
     delta_r(i+1) =  exp(log(smallest_r) + (log(biggest_r) - log(smallest_r))*i/nbBins_r) ;
 end
-delta_r
+delta_r;
 
 d = zeros(max(size(X)), theta_size*nbBins_r) ;
 for i = 1:size(X,1)

@@ -62,7 +62,7 @@ while currentIteration <= maxIterations
    ShapeDescriptors2 = sc_compute(Y',nbBins_theta,nbBins_r,smallest_r,biggest_r);
    disp('done.')
  
-   %set lambda here --> not sure if what I did is correct
+   %set lambda here --> not sure if what I did is correc
    N = size(X,1) ;
     normalization = 0 ;
     for i = 1:N ;
@@ -105,9 +105,9 @@ while currentIteration <= maxIterations
       title(' correspondences (unwarped X)')
       drawnow	
    end
-  
-   
-   [w_x,w_y,E] = tps_model(Xunwarped,Y,lambda);
+%   
+%    
+%    [w_x,w_y,E] = tps_model(Xunwarped,Y,lambda);
 %    
 %    
 %    % warp each coordinate   
