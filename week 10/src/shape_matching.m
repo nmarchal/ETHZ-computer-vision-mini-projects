@@ -23,7 +23,7 @@ nbBins_theta = 12;
 nbBins_r = 5;
 smallest_r = 1/8;%length of the smallest radius (assuming normalized distances)
 biggest_r = 3;%length of the biggest radius (assuming normalized distances)
-maxIterations = 6;
+maxIterations = 1;
 
 
 if display_flag
@@ -52,34 +52,27 @@ currentIteration = 1;
 
 %
 while currentIteration <= maxIterations
+    if COMPUTE_MATRIX == false
+        disp(['iter=' int2str(currentIteration)]);
+    end
 
-    disp(['iter=' int2str(currentIteration)]);
-% 
    %write the sc_compute.m function
-   if COMPUTE_MATRIX == true 
+   if COMPUTE_MATRIX == false 
         disp('computing shape contexts for (deformed) model...')
    end
    ShapeDescriptors1 = sc_compute(currentX',nbBins_theta,nbBins_r,smallest_r,biggest_r);
-   if COMPUTE_MATRIX == true 
+   if COMPUTE_MATRIX == false 
         disp('done.')
         disp('computing shape contexts for target...')
    end
    ShapeDescriptors2 = sc_compute(Y',nbBins_theta,nbBins_r,smallest_r,biggest_r);
-   if COMPUTE_MATRIX == true 
+   if COMPUTE_MATRIX == false 
        disp('done.')
    end
    
    %set lambda here --> not sure if what I did is correct
-   N = size(X,1) ;
-    normalization = 0 ;
-    for i = 1:N ;
-        diff = X(i) - X ;
-        for j = 1:N
-%             normalization = normalization + 1/(N^2)*(norm(diff(j,:))) ;
-            normalization = normalization + 1/(N^2)*(norm(diff(j,:))^2) ;
-        end
-    end
-    lambda = normalization ;
+    lambda = mean2(sqrt(dist2(Y,Y))) ;
+    lambda = lambda^2;
     
    %write the chi2_cost.m function
    costMatrixC = chi2_cost(ShapeDescriptors1,ShapeDescriptors2) ;
