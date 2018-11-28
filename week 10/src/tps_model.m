@@ -1,4 +1,4 @@
-function [w_x w_y E] = tps_model(X,Y,lambda)
+function [x y E] = tps_model(X,Y,lambda)
 %OUTPUTS : 
 % outputs w x and w y are the parameters (wi and ai) in the two TPS
 % models, E is the total bending energy
@@ -9,8 +9,21 @@ function [w_x w_y E] = tps_model(X,Y,lambda)
 % regularization parameter, lambda
 
 % the weights wi and a1, ax, ay for both fx and fy
+N = size(X,1) ;
+t = dist2(X,X) ;
+K = t.*log(t) ;
+K(isnan(K)) = 0 ;
+P = [ones(N,1), X] ;
+A = [K+lambda*eye(N), P; P', zeros(3,3)];
+vx = Y(:,1) ; vy = Y(:,2) ;
+bx = [vx;0;0;0] ; by = [vy;0;0;0] ;
 
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+x = A\bx ;
+y = A\by ;
+
+w_x = x(1:N) ; w_y = y(1:N) ;
+
+E = w_x'*K*w_x + w_y'*K*w_y;
+
 end
 

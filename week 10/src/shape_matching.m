@@ -3,14 +3,16 @@ function matchingCost = shape_matching(X,Y,display_flag)
 %computes the matching cost between template contour points X and target contour points Y  
 
 % sample randomly in x and y #FIXMW : probably have to delete that afterwards
-nsamp = 100 ;
-X = get_samples(X,nsamp) ;
-Y = get_samples(Y,nsamp) ;
+% nsamp = 100 ;
+% X = get_samples_1(X,nsamp);
+% Y = get_samples_1(Y,nsamp);
 
 %%%
 %%%Define flags and parameters:
 %access the struct object : objects(1).X ;
 %%%
+
+COMPUTE_MATRIX = true ;
 
 if nargin < 3
     display_flag = 0;
@@ -54,20 +56,24 @@ while currentIteration <= maxIterations
     disp(['iter=' int2str(currentIteration)]);
 % 
    %write the sc_compute.m function
-   disp('computing shape contexts for (deformed) model...')
+   if COMPUTE_MATRIX == true 
+        disp('computing shape contexts for (deformed) model...')
+   end
    ShapeDescriptors1 = sc_compute(currentX',nbBins_theta,nbBins_r,smallest_r,biggest_r);
-   disp('done.')
-      
-   disp('computing shape contexts for target...')
+   if COMPUTE_MATRIX == true 
+        disp('done.')
+        disp('computing shape contexts for target...')
+   end
    ShapeDescriptors2 = sc_compute(Y',nbBins_theta,nbBins_r,smallest_r,biggest_r);
-   disp('done.')
- 
+   if COMPUTE_MATRIX == true 
+       disp('done.')
+   end
+   
    %set lambda here --> not sure if what I did is correct
    N = size(X,1) ;
     normalization = 0 ;
     for i = 1:N ;
         diff = X(i) - X ;
-        size(diff)
         for j = 1:N
 %             normalization = normalization + 1/(N^2)*(norm(diff(j,:))) ;
             normalization = normalization + 1/(N^2)*(norm(diff(j,:))^2) ;
@@ -77,7 +83,7 @@ while currentIteration <= maxIterations
     
    %write the chi2_cost.m function
    costMatrixC = chi2_cost(ShapeDescriptors1,ShapeDescriptors2) ;
-   corespondencesIndex = hungarian(costMatrixC);
+   corespondencesIndex = hungarian(costMatrixC) ;
    size(corespondencesIndex) ;
    
    Xwarped = currentX(corespondencesIndex,:);   
@@ -94,7 +100,7 @@ while currentIteration <= maxIterations
       drawnow	
    end
    
-   if display_flag
+   if display_flag 
       % show the correspondences between the untransformed images
       figure(3)
       plot(X(:,1),X(:,2),'b+',Y(:,1),Y(:,2),'ro')      
@@ -107,46 +113,46 @@ while currentIteration <= maxIterations
    end
   
    
-   [w_x,w_y,E] = tps_model(Xunwarped,Y,lambda);
+    [w_x,w_y,E] = tps_model(Xunwarped,Y,lambda);
 %    
 %    
-%    % warp each coordinate   
-%    fx_aff = w_x(nbSamples+1:nbSamples+3)'*[ones(1,nbSamples); X'];
-%    d2 = max(dist2(Xunwarped,X),0);  
-%    U = d2.*log(d2+eps);
-%    fx_wrp = w_x(1:nbSamples)'*U;
-%    fx = fx_aff+fx_wrp;   
-%    
-%    fy_aff = w_y(nbSamples+1:nbSamples+3)'*[ones(1,nbSamples); X'];
-%    fy_wrp = w_y(1:nbSamples)'*U;
-%    fy = fy_aff+fy_wrp;
-% 
-%    % update currentX for the next iteration
-%    currentX = [fx; fy]';   
-% 
-%    if display_flag
-%       figure(4)
-%       plot(currentX(:,1),currentX(:,2),'b+',Y(:,1),Y(:,2),'ro');
-%       axis('ij')
-%       title(['iteration=' int2str(currentIteration) ',  I_f=' num2str(E) ])
-%       % show warped coordinate grid
-%       fx_aff=w_x(nbSamples+1:nbSamples+3)'*[ones(1,M); x'; y'];
-%       d2 = dist2(Xunwarped,[x y]);
-%       fx_wrp = w_x(1:nbSamples)'*(d2.*log(d2+eps));
-%       fx = fx_aff+fx_wrp;
-%       fy_aff = w_y(nbSamples+1:nbSamples+3)'*[ones(1,M); x'; y'];
-%       fy_wrp = w_y(1:nbSamples)'*(d2.*log(d2+eps));
-%       fy = fy_aff+fy_wrp;
-%       hold on
-%       plot(fx,fy,'k.','markersize',1)
-%       hold off
-%       drawnow
-%    end         
-% 
-   %update currentIteration
+   % warp each coordinate   
+   fx_aff = w_x(nbSamples+1:nbSamples+3)'*[ones(1,nbSamples); X'];
+   d2 = max(dist2(Xunwarped,X),0);  
+   U = d2.*log(d2+eps);
+   fx_wrp = w_x(1:nbSamples)'*U;
+   fx = fx_aff+fx_wrp;   
+   
+   fy_aff = w_y(nbSamples+1:nbSamples+3)'*[ones(1,nbSamples); X'];
+   fy_wrp = w_y(1:nbSamples)'*U;
+   fy = fy_aff+fy_wrp;
+
+   % update currentX for the next iteration
+   currentX = [fx; fy]';   
+
+   if display_flag
+      figure(4)
+      plot(currentX(:,1),currentX(:,2),'b+',Y(:,1),Y(:,2),'ro');
+      axis('ij')
+      title(['iteration=' int2str(currentIteration) ',  I_f=' num2str(E) ])
+      % show warped coordinate grid
+      fx_aff=w_x(nbSamples+1:nbSamples+3)'*[ones(1,M); x'; y'];
+      d2 = dist2(Xunwarped,[x y]);
+      fx_wrp = w_x(1:nbSamples)'*(d2.*log(d2+eps));
+      fx = fx_aff+fx_wrp;
+      fy_aff = w_y(nbSamples+1:nbSamples+3)'*[ones(1,M); x'; y'];
+      fy_wrp = w_y(1:nbSamples)'*(d2.*log(d2+eps));
+      fy = fy_aff+fy_wrp;
+      hold on
+      plot(fx,fy,'k.','markersize',1)
+      hold off
+      drawnow
+   end         
+
+    %update currentIteration
    currentIteration = currentIteration + 1;
    
 end
 
-E = 1 ; %FIXME : DUMMY VALUE NOW
+% E = 1 ; %FIXME : DUMMY VALUE NOW
 matchingCost = E;

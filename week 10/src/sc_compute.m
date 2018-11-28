@@ -9,31 +9,18 @@ function [d] = sc_compute(X,nbBins_theta,nbBins_r,smallest_r,biggest_r)
 % the length of the smallest radius, smallest_r
 % the length of the biggest radius, biggest_r
 
-%do normalization 
-N = size(X,1) ;
-normalization = 0 ;
-for i = 1:N ;
-    diff = X(i) - X ;
-    size(diff)
-    for j = 1:N
-        normalization = normalization + 1/(N^2)*(norm(diff(j,:))) ;
-%         normalization = normalization + 1/(N^2)*(norm(diff(j,:))^2) ;
-    end
-    size(normalization);
-end
-normalization = 1/(sqrt(2)/normalization) ;
-% normalization = 1/(2/normalization) 
+X = X' ;
+normalization = mean2(sqrt(dist2(X,X))) ;  
 
 smallest_r = smallest_r*normalization ;
 biggest_r = biggest_r*normalization ;
-
 
 theta_size = 360/nbBins_theta ;
 delta_r(1) = smallest_r ;
 for i = 1:nbBins_r
     delta_r(i+1) =  exp(log(smallest_r) + (log(biggest_r) - log(smallest_r))*i/nbBins_r) ;
 end
-delta_r;
+% delta_r/normalization
 
 d = zeros(max(size(X)), theta_size*nbBins_r) ;
 for i = 1:size(X,1)
@@ -57,3 +44,6 @@ for i = 1:size(X,1)
         end
     end
 end
+
+%car2pol : carthesian to polar
+%hist3
