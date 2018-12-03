@@ -24,9 +24,14 @@ for i = idx_sort(1:k)
     end
 end
 
-results = [heart fork watch] 
+results = [heart fork watch] ;
 results_label = {'Heart', 'fork', 'watch'} ;
 [~,max_idx] = max(results) ;
+
+if max(size(max_idx)) > 1
+    fprintf('This one had an equal amount of nearest neighbour \n')
+    max_idx = datasample(max_idx,1) ; %randomly select 1 class
+end 
 
 testClass = results_label{max_idx} ;
 

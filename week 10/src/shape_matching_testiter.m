@@ -1,5 +1,5 @@
-function matchingCost = shape_matching(X,Y,display_flag)
-% tic
+function matchingCost = shape_matching_testiter(X,Y,display_flag, testiter)
+
 %computes the matching cost between template contour points X and target contour points Y  
 
 % sample randomly in x and y if not same size
@@ -26,7 +26,7 @@ nbBins_theta = 12;
 nbBins_r = 5;
 smallest_r = 1/8;%length of the smallest radius (assuming normalized distances)
 biggest_r = 3;%length of the biggest radius (assuming normalized distances)
-maxIterations = 1;
+maxIterations = testiter;
 
 
 if display_flag
@@ -151,5 +151,4 @@ while currentIteration <= maxIterations
 end
 
 % E = 1 ; %FIXME : DUMMY VALUE NOW
-% toc
 matchingCost = E;

@@ -1,7 +1,7 @@
 function classificationAccuracy = shape_classification(k)
 
 % perform the shape classification task
-
+% tic
 DONT_REDO_COST = false ;
 SAVE_COST_MAT = false ;
 
@@ -32,7 +32,7 @@ else
     for o1 = 1:length(objects)        
         %nearest neighbour classification    
         %write the nn_classify.m function
-        testClass = nn_classify(matchingCostMatrix(o1,:),allClasses,k)   
+        testClass = nn_classify(matchingCostMatrix(o1,:),allClasses,k)  ;  
         if strcmpi(allClasses{o1},testClass)        
             hits = hits + 1;                
         end
@@ -41,4 +41,5 @@ else
     fprintf('done\ntrue positives: %d/%d\n', hits, nbObjects);
 
     classificationAccuracy = hits/nbObjects;
+%     toc
 end

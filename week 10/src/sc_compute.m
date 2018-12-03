@@ -10,8 +10,8 @@ function [d] = sc_compute(X,nbBins_theta,nbBins_r,smallest_r,biggest_r)
 % the length of the biggest radius, biggest_r
 
 X = X' ;
-normalization = mean2(sqrt(dist2(X,X))) ;  
 
+normalization = mean2(sqrt(dist2(X,X))) ;  
 smallest_r = smallest_r*normalization ;
 biggest_r = biggest_r*normalization ;
 
@@ -20,7 +20,7 @@ delta_r(1) = smallest_r ;
 for i = 1:nbBins_r
     delta_r(i+1) =  exp(log(smallest_r) + (log(biggest_r) - log(smallest_r))*i/nbBins_r) ;
 end
-% delta_r/normalization
+%  delta_r/normalization
 
 d = zeros(max(size(X)), theta_size*nbBins_r) ;
 for i = 1:size(X,1)
