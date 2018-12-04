@@ -12,3 +12,9 @@ week 5 : Multiple view geometry and model fitting (2 weeks work)
 week 7 : Image segmentation
 
 week 8 : stereo matching
+
+week 9 : Structure from Motion
+
+week 10 : Shape Matching (using Shape Context descriptors)
+
+week 11 : Visual Hull (Shape from silhouettes)
