@@ -14,7 +14,9 @@ function [Idx Dist] = findnn( D1, D2 )
   Dist = zeros(N,1);
   
   % Find for each feature vector in D1 the nearest neighbor in D2
-  ...
-  ...
+  for i = 1:N
+      [Dist(i),Idx(i)] = min(sum((D2-repmat(D1(i,:),[M,1])).^2,2));
+  end
+  
 end
       

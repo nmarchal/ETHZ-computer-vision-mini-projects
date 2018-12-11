@@ -9,7 +9,7 @@ function [descriptors,patches] = descriptors_hog(img,vPoints,cellWidth,cellHeigh
     patches = zeros(N,4*w*4*h); % image patches stored in rows    
     
     [grad_x,grad_y]=gradient(img); 
-    grad_orientation = atan2(grad_y,grad_y) ;
+    grad_orientation = atan2(grad_y,grad_x) ;
     
     for i = [1:size(vPoints,1)] % for all local feature points
         m=1 ;
@@ -21,14 +21,14 @@ function [descriptors,patches] = descriptors_hog(img,vPoints,cellWidth,cellHeigh
                 patch_orientation = grad_orientation( ...
                                 (vPoints(i,2)+k*h):(vPoints(i,2)+(k+1)*h-1), ...
                                 (vPoints(i,1)+j*w):(vPoints(i,1)+(j+1)*w-1)) ;
-                descriptors(m:m+7) = histcounts(patch_orientation, ...
-                                                nBins,'BinLimits',[-pi,pi]);
-                patches(i,n:n + w*h-1) = reshape(patch,1,w*h) ;
+                descriptors(i,m:m+7) = histcounts(patch_orientation, ...
+                                                nBins,'BinLimits',[-pi,pi]);          
                 m = m+8 ;
-                n = n + w*h ;
             end
         end
-        
+        patches(i,:) = reshape( ...
+                    img((vPoints(i,2)-2*h):(vPoints(i,2)+ 2*h-1), ...
+                            (vPoints(i,1)-2 *w):(vPoints(i,1)+2*w-1)) ,1,w*h*4*4) ;
         
     end % for all local feature points
     

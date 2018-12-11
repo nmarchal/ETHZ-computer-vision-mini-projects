@@ -27,7 +27,8 @@ function vCenters = create_codebook(nameDir,k,numiter)
     
     % create hog descriptors and patches
     [descriptors,patches] = descriptors_hog(img,vPoints,cellWidth,cellHeight) ;
-    
+    vFeatures = [vFeatures ; descriptors] ;
+    vPatches = [vPatches ; patches] ;
   end
   disp(strcat('    Number of extracted features:',num2str(size(vFeatures,1))));
 
@@ -40,6 +41,6 @@ function vCenters = create_codebook(nameDir,k,numiter)
   disp('Visualizing the codebook...');
   visualize_codebook(vCenters,vFeatures,vPatches,cellWidth,cellHeight);
   disp('Press any key to continue...');
-  pause;
+%    pause;
 
 end

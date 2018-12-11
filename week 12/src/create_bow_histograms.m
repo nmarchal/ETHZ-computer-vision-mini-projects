@@ -15,14 +15,17 @@ function vBoW = create_bow_histograms(nameDir, vCenters)
     disp(strcat('  Processing image ', num2str(i),'...'));
     
     % load the image
-    img = double(rgb2gray(imread(fullfile(sDir,vImgNames(i).name))));
+    img = double(rgb2gray(imread(fullfile(nameDir,vImgNames(i).name))));
 
     % Collect local feature points for each image
     % and compute a descriptor for each local feature point
-    ...
+    vPoints = grid_points(img,nPointsX,nPointsY,border) ;
+    [descriptors,patches] = descriptors_hog(img,vPoints,cellWidth,cellHeight);
     
     % Create a BoW activation histogram for this image
-    ...
+     histo = bow_histogram(descriptors, vCenters) ;
+     vBoW = [vBoW ; histo'] ;
+     
   end;
     
 end

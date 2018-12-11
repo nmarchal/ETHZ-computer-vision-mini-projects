@@ -2,7 +2,7 @@ function sLabel = bow_recognition_nearest(histogram,vBoWPos,vBoWNeg)
   
  % Find the nearest neighbor in the positive and negative sets
   % and decide based on this neighbor
-  ...
+  [Idx Dist] = findnn( D1, D2 )
   
   if (DistPos<DistNeg)
     sLabel = 1;
