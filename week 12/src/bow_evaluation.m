@@ -4,7 +4,7 @@
 
 %training
 disp('creating codebook');
-sizeCodebook = 20;
+sizeCodebook = 200;
 numIterations = 10;
 vCenters = create_codebook('../data/cars-training-pos',sizeCodebook,numIterations);
 %keyboard;
