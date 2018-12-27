@@ -20,7 +20,10 @@ function condensationTracker(videoName,params)
 % Alex Mansfield and Bogdan Alexe
 
 % initialize the random generator
-RandStream.setDefaultStream(RandStream('mt19937ar','seed',0));
+
+% furst of all, do load('params.mat') in command window. 
+
+RandStream.setGlobalStream(RandStream('mt19937ar','seed',0));
 
 % use AVI or WMV files?
 use_wmv = true;
@@ -49,7 +52,7 @@ end
 
 % get the video
 if(use_wmv)
-	vid = mmreader(['../data/' videoName '.wmv']);
+	vid = VideoReader(['../data/' videoName '.wmv']);
 else
     vid = aviread(['../data/' videoName '.avi']);
 end
@@ -101,8 +104,8 @@ if (params.model==1 )
 end
 
 % INITIALIZE PARTICLES
-particles = repmat(meanStateAPriori(1,:), params.num_particles, 1);
-particles_w = repmat(1/params.num_particles, params.num_particles, 1);
+particles = repmat(meanStateAPriori(1,:), params.num_particles, 1); %same particle multiple times
+particles_w = repmat(1/params.num_particles, params.num_particles, 1); %equal weight
 
 for i = 1:length(frameValues)
     t = frameValues(i);
@@ -196,7 +199,7 @@ for i = 1:length(frameValues)
     [particles particles_w] = resample(particles,particles_w);
     %======================
       
-    waitforbuttonpress;
+%     waitforbuttonpress;
     
 end
 
