@@ -3,12 +3,14 @@ function particles_w = observe(particles,frame,H,W,hist_bin,hist_target,sigma_ob
 %   Detailed explanation goes here
 N = max(size(particles)) ;
 particles_w = zeros(N,1) ;
+hist_target = reshape(hist_target,1,3*hist_bin) ;
 for i = 1:N
     xMin = particles(i,1) - W/2;
     xMax = particles(i,1) + W/2;
     yMin = particles(i,2) - H/2;
     yMax = particles(i,2) + H/2;
     particule_hist = color_histogram(xMin,yMin,xMax,yMax,frame,hist_bin);
+    particule_hist = reshape(particule_hist,1,3*hist_bin);
     distance = chi2_cost(hist_target,particule_hist);
     %formula given in the exercise
     particles_w(i) = 1/(sqrt(2*pi)*sigma_observe)* ...

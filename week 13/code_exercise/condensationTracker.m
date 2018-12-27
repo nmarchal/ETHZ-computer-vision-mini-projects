@@ -27,7 +27,6 @@ RandStream.setGlobalStream(RandStream('mt19937ar','seed',0));
 
 % use AVI or WMV files?
 use_wmv = true;
-
 % load video --------------------------------------------------------------
 
 switch videoName
@@ -48,17 +47,24 @@ switch videoName
         stepFrame = 1;
   case 'myOwnVideo'
     %implement here
+    use_wmv = false;
+    use_mp4 = true ; % for my video
+    firstFrame = 1050
+    lastFrame = 1120;
+    stepFrame = 1;
 end
 
 % get the video
 if(use_wmv)
 	vid = VideoReader(['../data/' videoName '.wmv']);
+elseif (use_mp4)
+    vid = VideoReader(['../data/' videoName '.mp4']);
 else
     vid = aviread(['../data/' videoName '.avi']);
 end
 
 % get the first frame
-if(use_wmv)
+if(use_wmv || use_mp4)
     frame = read(vid,firstFrame);
 else
     frame = vid(firstFrame).cdata;
@@ -78,7 +84,7 @@ figure(1);image(frame);
 % USER INTERACTION
 % draw initial bounding box and then double click
 bb = imrect(gca);
-wait(bb);
+% wait(bb);
 initialBB = round(getPosition(bb));
 
 % bounding box size
@@ -121,7 +127,7 @@ for i = 1:length(frameValues)
     %======================
     
     % get frame
-    if(use_wmv)
+    if(use_wmv || use_mp4)
         frame = read(vid,t);
     else
         frame = vid(t).cdata;
